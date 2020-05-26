@@ -13,7 +13,7 @@ It's a simple Single-page application with REST API. You can create products and
 * Extensive unit and integration testing
 
 ### Back-End tech stack
-Java 8, Spring Boot (Spring Web, Spring Data, Spring Security), Hibernate, Maven, PostgreSQL, H2 Database, JUnit, Mockito etc.
+Java 8, Spring Boot (Spring Web, Spring Data, Spring Security), Hibernate, Maven, PostgreSQL, H2 Database, JUnit, Mockito, PowerMock etc.
 
 
 ### Front-End tech stack
