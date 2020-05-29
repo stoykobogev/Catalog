@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.catalog.dtos.ProductDto;
 import com.catalog.entities.Product;
@@ -34,5 +36,10 @@ public class BeanConfiguration {
     @Bean
     public MessageDigest messageDigest() throws NoSuchAlgorithmException {
     	return MessageDigest.getInstance("SHA-256");
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

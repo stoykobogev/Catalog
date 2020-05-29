@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserDto implements UserDetails  {
+public class UserDetailsImpl implements UserDetails  {
 
 	private static final long serialVersionUID = 1814849996632489629L;
 	

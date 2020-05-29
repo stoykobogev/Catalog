@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.catalog.dtos.UserDto;
+import com.catalog.dtos.UserDetailsImpl;
 import com.catalog.entities.Role;
 import com.catalog.entities.User;
 import com.catalog.repositories.UserRepository;
@@ -42,14 +42,14 @@ public class UserServiceTests {
 	@Test
 	public void testLoadUserByUsername() {
 		
-		UserDto dto = new UserDto();
+		UserDetailsImpl dto = new UserDetailsImpl();
 		User user = new User();
 		Set<Role> authorities = new HashSet<>();
 		authorities.add(new Role());
 		user.setAuthorities(authorities);
 		
 		when(this.userRepository.findByUsername(this.username)).thenReturn(user);
-		when(this.modelMapper.map(user, UserDto.class)).thenReturn(dto);
+		when(this.modelMapper.map(user, UserDetailsImpl.class)).thenReturn(dto);
 		
 		UserDetails result = this.userService.loadUserByUsername(this.username);
 		

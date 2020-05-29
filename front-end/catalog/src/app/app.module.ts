@@ -31,7 +31,8 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 		ReactiveFormsModule,
 		HttpClientModule,
 		HttpClientXsrfModule.withOptions({
-			headerName: 'X-CSRF-TOKEN'
+			headerName: 'X-CSRF-TOKEN',
+			cookieName: 'CSRF-TOKEN'
 		})
 	],
 	providers: [

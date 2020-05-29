@@ -11,55 +11,43 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 import com.catalog.constants.Roles;
-import com.catalog.services.UserService;
+import com.catalog.constants.SecurityConstants;
+import com.catalog.filters.JwtAuthenticationFilter;
+import com.catalog.filters.JwtAuthorizationFilter;
+import com.catalog.services.RedisService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-    private UserService userService;
 
+	@Autowired
+	private RedisService redisService;
+	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
         	.cors()
         	.and()
             .csrf()
+            	.ignoringAntMatchers(SecurityConstants.LOGIN_URL)
                 .csrfTokenRepository(csrfTokenRepository())
             .and()
             .authorizeRequests()
-            	.antMatchers(HttpMethod.GET, "/**").hasAnyRole(Roles.ADMIN, Roles.USER)
-            	.antMatchers(HttpMethod.POST, "/**").hasRole(Roles.ADMIN)
-            	.antMatchers(HttpMethod.PUT, "/**").hasRole(Roles.ADMIN)
-            	.antMatchers(HttpMethod.DELETE, "/**").hasRole(Roles.ADMIN)
+            	.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+            	.antMatchers(HttpMethod.GET, "/api/**").hasAnyRole(Roles.ADMIN, Roles.USER)
+            	.antMatchers(HttpMethod.POST, "/api/**").hasRole(Roles.ADMIN)
+            	.antMatchers(HttpMethod.PUT, "/api/**").hasRole(Roles.ADMIN)
+            	.antMatchers(HttpMethod.DELETE, "/api/**").hasRole(Roles.ADMIN)
+            	.anyRequest().authenticated()
             .and()
-            .formLogin()
-                //.successHandler(this.handler)
-                .loginPage("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-            .and()
-            .rememberMe()
-                .rememberMeParameter("remember-me")
-                .userDetailsService(this.userService)
-                .rememberMeCookieName("remember")
-                .tokenValiditySeconds(1200)
-            .and()
-            .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true);
+            .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.redisService))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.redisService));
 
     }
     
     private CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-
-        repository.setSessionAttributeName("_csrf");
-        repository.setHeaderName("X-CSRF-TOKEN");
 
         return repository;
     }

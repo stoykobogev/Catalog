@@ -1,43 +1,29 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree, CanActivateChild } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { User } from '../models/user.model';
-import { Subscription } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild, OnInit, OnDestroy {
-
-	currentUser: User;
-	subscription: Subscription;
+export class AuthGuard implements CanActivate, CanActivateChild {
 
 	constructor(private userService: UserService, private router: Router) {}
 
-	ngOnInit(): void {
-		this.subscription = this.userService.currentUser.subscribe((user) => {
-			this.currentUser = user;
-		});
-	}
-
-	ngOnDestroy(): void {
-		this.subscription.unsubscribe();
-	}
-
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-		return this.doCanActivate(route, state);
+		return this.doCanActivate(route);
 	}
 
 	canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-		return this.doCanActivate(route, state);
+		return this.doCanActivate(route);
 	}
 
-	private doCanActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+	private doCanActivate(route: ActivatedRouteSnapshot) {
 		const expectedRoles = route.data.roles as string[];
+		const user = this.userService.currentUser.getValue();
 
-		if (!this.currentUser) {
+		if (!user) {
 			return this.router.parseUrl('/login');
-		} else if (!expectedRoles || this.currentUser.roles.some(role => expectedRoles.includes(role))) {
+		} else if (!expectedRoles || user.roles.some(role => expectedRoles.includes(role))) {
 			return true;
 		}
 

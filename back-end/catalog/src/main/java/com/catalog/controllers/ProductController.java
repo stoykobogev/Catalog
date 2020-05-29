@@ -22,7 +22,7 @@ import com.catalog.dtos.ProductDto;
 import com.catalog.services.ProductService;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
 	
 	@Autowired

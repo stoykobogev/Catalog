@@ -35,7 +35,7 @@ import com.catalog.repositories.ProductRepository;
 @Sql({ CATEGORIES, IMAGES, PRODUCTS })
 public class ProductControllerTests extends AbstractControllerTest {
 	
-	private static final String BASE_URL = "/products";
+	private static final String BASE_URL = "/api/products";
 	private static final String GET_PRODUCTS_URL = BASE_URL + "/category/";
 
 	@Autowired

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.catalog.dtos.UserDto;
+import com.catalog.dtos.UserDetailsImpl;
 import com.catalog.entities.User;
 import com.catalog.repositories.UserRepository;
 
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException(String.format("User '%s' has no authorities", username));
 		}
 		
-		UserDto dto = this.modelMapper.map(user, UserDto.class);
+		UserDetailsImpl dto = this.modelMapper.map(user, UserDetailsImpl.class);
 		
 		return dto;
 	}

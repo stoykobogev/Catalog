@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
         this.userService.login(this.usernameControl.value, this.passwordControl.value)
             .subscribe(() => {
-				this.router.navigateByUrl('/categories');
+				this.router.navigateByUrl('/categories')
 			});
 	}
 }
