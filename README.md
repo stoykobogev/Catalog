@@ -17,4 +17,4 @@ Java 8, Spring Boot (Spring Web, Spring Data, Spring Security), Hibernate, Redis
 
 
 ### Front-End tech stack
-Angular, Bootstrap
+Angular, Bootstrap, Fontawesome, jQuery (required by Bootstrap)
