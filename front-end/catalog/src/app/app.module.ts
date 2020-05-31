@@ -13,6 +13,9 @@ import { EditCategoryComponent } from './components/edit-category/edit-category.
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { HasRolesDirective } from './directives/has-roles.directive';
+import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
 	declarations: [
@@ -23,7 +26,9 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 		CategoriesComponent,
 		CreateCategoryComponent,
 		EditCategoryComponent,
-		LoginComponent
+		LoginComponent,
+		HasRolesDirective,
+		PopupComponent
 	],
 	imports: [
 		BrowserModule,
@@ -36,7 +41,8 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 		})
 	],
 	providers: [
-		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
 })

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree, CanActivateChild } from '@angular/router';
-import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-	constructor(private userService: UserService, private router: Router) {}
+	constructor(private authService: AuthService, private router: Router) {}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
 		return this.doCanActivate(route);
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
 	private doCanActivate(route: ActivatedRouteSnapshot) {
 		const expectedRoles = route.data.roles as string[];
-		const user = this.userService.currentUser.getValue();
+		const user = this.authService.currentUser.getValue();
 
 		if (!user) {
 			return this.router.parseUrl('/login');

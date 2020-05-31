@@ -9,7 +9,7 @@ import jwt_decode from 'jwt-decode';
 @Injectable({
 	providedIn: 'root'
 })
-export class UserService {
+export class AuthService {
 
 	currentUser = new BehaviorSubject<User>(null);
 
@@ -33,6 +33,7 @@ export class UserService {
 			let user = new User();
 			user.username = token.sub;
 			user.roles = token.roles;
+			user.jwt = jwt;
 
 			this.currentUser.next(user);
 		}));

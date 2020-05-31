@@ -1,17 +1,24 @@
+<!-- navbar -->
 <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
     <div class="navbar-nav">
         <a class="nav-item nav-link" routerLink="/">Home</a>
 		<a class="nav-item nav-link" (click)="logout()">Logout</a>
-		<span class="navbar-text">
+		<span class="nav-item nav-link active">
 			Hello, {{currentUser.username}}
 		</span>
     </div>
 </nav>
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-6 offset-md-3">
-			<router-outlet></router-outlet>
+<!-- content -->
+<div class="jumbotron">
+	<div class="container">
+		<div class="row">
+			<div class="col-8 offset-2">
+				<router-outlet></router-outlet>
+			</div>
 		</div>
 	</div>
 </div>
+
+<!-- popup -->
+<app-popup></app-popup>

@@ -1,0 +1,18 @@
+
+<div id="popup" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">{{popup.title}}</h4>
+			</div>
+			<div class="modal-body">
+				<p>{{popup.text}}</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal" 
+					[style.display]="popup.cancelButtonVisible ? 'block' : 'none'">Cancel</button>
+				<button type="button" class="btn btn-success pl-2 pr-2" data-dismiss="modal" (click)="ok()">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
