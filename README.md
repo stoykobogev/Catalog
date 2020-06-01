@@ -8,7 +8,7 @@ It's a simple Single-page application with REST API. You can create products and
 ## More details
 * Uploading images is costly because of their big size. There is implemented functionality to check if the same image is already in the database and use it instead of the uploaded one hence there are no image duplications. The goal is to save disk memory.
 
-* Security - JWT authentication complemented by Redis, CORS and CSRF protection, HTTP request parameters validations
+* Security - JWT authentication and authorization complemented by Redis, CORS and CSRF protection, HTTP request parameters validations
 
 * Extensive unit and integration testing
 
@@ -17,4 +17,4 @@ Java 8, Spring Boot (Spring Web, Spring Data, Spring Security), Hibernate, Redis
 
 
 ### Front-End tech stack
-Angular, Bootstrap
+Angular, Bootstrap, Fontawesome, jQuery (required by Bootstrap)
