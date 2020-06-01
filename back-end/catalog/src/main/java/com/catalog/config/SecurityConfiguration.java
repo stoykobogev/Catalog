@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.catalog.constants.Roles;
 import com.catalog.constants.SecurityConstants;
@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.and()
             .csrf()
             	.ignoringAntMatchers(SecurityConstants.LOGIN_URL)
-                .csrfTokenRepository(csrfTokenRepository())
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .and()
             .authorizeRequests()
             	.antMatchers(HttpMethod.POST, "/api/login").permitAll()
@@ -47,18 +47,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             	.anyRequest().authenticated()
             .and()
             .logout()
-            	.logoutUrl(SecurityConstants.LOGOUT_URL)
+            	.logoutRequestMatcher(new AntPathRequestMatcher(SecurityConstants.LOGOUT_URL, HttpMethod.POST.name()))
             	.deleteCookies(SecurityConstants.JWT_COOKIE_NAME, "JSESSIONID")
             	.logoutSuccessHandler(new JwtLogoutSuccessHandler(this.redisService))
             .and()
             .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.redisService, this.objectMapper))
             .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.redisService));
 
-    }
-    
-    private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-
-        return repository;
     }
 }

@@ -34,10 +34,7 @@ import { PopupComponent } from './components/popup/popup.component';
 		AppRoutingModule,
 		ReactiveFormsModule,
 		HttpClientModule,
-		HttpClientXsrfModule.withOptions({
-			headerName: 'X-CSRF-TOKEN',
-			cookieName: 'CSRF-TOKEN'
-		})
+		HttpClientXsrfModule
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

@@ -40,7 +40,7 @@ export class AuthService {
 	}
 
 	logout(): void {
-		this.http.get<void>('/api/logout').subscribe();
+		this.http.post<void>('/api/logout', null).subscribe();
 		this.currentUser.next(null);
 		window.sessionStorage.removeItem(this.SESSION_STORAGE_USER_KEY);
 	}
