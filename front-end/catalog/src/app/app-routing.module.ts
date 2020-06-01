@@ -14,14 +14,21 @@ import { LoginComponent } from './components/login/login.component';
 const routes: Routes = [
 	{
 		path: 'categories',
-		component: CategoriesComponent,
 		canActivate: [AuthGuard],
 		canActivateChild: [AuthGuard],
 		children: [
 			{
-				path: ':categotyId/products',
-				component: ProductsComponent,
+				path: '',
+				component: CategoriesComponent,
+			},
+			{
+				path: ':categoryId/products',
 				children: [
+					{
+						path: '',
+						canActivate: [AuthGuard],
+						component: ProductsComponent,
+					},
 					{
 						path: 'create',
 						component: CreateProductComponent,
@@ -43,7 +50,7 @@ const routes: Routes = [
 				data: { roles: [Roles.ADMIN] }
 			},
 			{
-				path: ':categotyId',
+				path: ':categoryId',
 				component: EditCategoryComponent,
 				canActivate: [AuthGuard],
 				data: { roles: [Roles.ADMIN] }

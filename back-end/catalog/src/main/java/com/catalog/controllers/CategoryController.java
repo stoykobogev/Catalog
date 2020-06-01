@@ -33,6 +33,11 @@ public class CategoryController {
 		return this.categoryService.getAllCategories();
 	}
 	
+	@GetMapping("/{categoryId}")
+	public CategoryDto getCategory(@PathVariable int categoryId) {
+		return this.categoryService.getCategory(categoryId);
+	}
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public int createCategory(@Valid @RequestBody CategoryParams params) {

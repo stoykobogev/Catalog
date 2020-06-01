@@ -4,6 +4,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { Roles } from 'src/app/constants/roles';
 import { PopupService } from 'src/app/services/popup.service';
 import { Popup } from 'src/app/models/popup.model';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-categories',
@@ -15,7 +16,8 @@ export class CategoriesComponent implements OnInit {
 	categories: Array<Category>;
 	roles = Roles;
 
-	constructor(private categoryService: CategoryService, private popupService: PopupService) { }
+	constructor(private categoryService: CategoryService, 
+		private popupService: PopupService, private router: Router) { }
 
 	ngOnInit(): void {
 		this.categoryService.getAllCategories().subscribe(
@@ -25,8 +27,13 @@ export class CategoriesComponent implements OnInit {
 		);
 	}
 
-	viewCategoryProducts(): void {
-
+	viewCategoryProducts(category: Category): void {
+		this.router.navigate(['categories', category.id, 'products'], 
+			{
+				state: {
+					category: category
+				}
+			});
 	}
 
 	editCategory(): void {
@@ -36,7 +43,7 @@ export class CategoriesComponent implements OnInit {
 	deleteCategory(category: Category): void {
 		this.popupService.showPopup({
 			type: Popup.Types.CONFIRMATION,
-			text: 'Deleting this category will also delete all products in it',
+			content: ['Deleting this category will also delete all products in it.', 'Are you sure?'],
 			callback: () => {
 				this.categoryService.deleteCategory(category.id).subscribe();
 			}

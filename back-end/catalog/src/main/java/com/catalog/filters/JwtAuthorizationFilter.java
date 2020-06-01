@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,9 +50,18 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
     	
-        String token = request.getHeader(SecurityConstants.JWT_HEADER);
+        String token = null;
+        Cookie[] cookies = request.getCookies(); 
         
-        if (StringUtils.isNotEmpty(token) && token.startsWith(SecurityConstants.JWT_PREFIX)) {
+        if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	        	if (cookie.getName().equals(SecurityConstants.JWT_COOKIE_NAME)) {
+	        		token = cookie.getValue();
+	        	}
+	        }
+        }
+        
+        if (StringUtils.isNotEmpty(token)) {
   
             byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
 
@@ -60,7 +70,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             	claims = Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build()
-                .parseClaimsJws(token.replace(SecurityConstants.JWT_PREFIX, ""))
+                .parseClaimsJws(token)
                 .getBody();
             } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException 
             		| SignatureException | IllegalArgumentException e) {
@@ -83,8 +93,5 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         } 
         
         return null;
-//        else {
-//        	throw new InvalidJsonWebToken();
-//        }
     }
 }

@@ -1,4 +1,4 @@
-<h2>Cathegories</h2>
+<h2>Categories</h2>
 <br/>
 <div class="d-flex justify-content-center">
 	<a class="bg-success rounded p-2 pl-3 pr-3 create-button" 
@@ -19,7 +19,7 @@
 			<tr *ngFor="let category of categories">
 				<td>{{category.name}}</td>
 				<td class="d-flex justify-content-around">
-					<div class="bg-success rounded p-1 pl-2 pr-2">
+					<div class="bg-success rounded p-1 pl-2 pr-2" (click)="viewCategoryProducts(category)">
 						<i class="fas fa-arrow-right"></i>
 					</div>
 					<div [hasRoles]="[roles.ADMIN]" class="bg-primary rounded p-1 pl-2 pr-2">

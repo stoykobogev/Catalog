@@ -14,7 +14,9 @@ import com.catalog.constants.Roles;
 import com.catalog.constants.SecurityConstants;
 import com.catalog.filters.JwtAuthenticationFilter;
 import com.catalog.filters.JwtAuthorizationFilter;
+import com.catalog.handlers.JwtLogoutSuccessHandler;
 import com.catalog.services.RedisService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private RedisService redisService;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,7 +46,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             	.antMatchers(HttpMethod.DELETE, "/api/**").hasRole(Roles.ADMIN)
             	.anyRequest().authenticated()
             .and()
-            .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.redisService))
+            .logout()
+            	.logoutUrl(SecurityConstants.LOGOUT_URL)
+            	.deleteCookies(SecurityConstants.JWT_COOKIE_NAME, "JSESSIONID")
+            	.logoutSuccessHandler(new JwtLogoutSuccessHandler(this.redisService))
+            .and()
+            .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.redisService, this.objectMapper))
             .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.redisService));
 
     }

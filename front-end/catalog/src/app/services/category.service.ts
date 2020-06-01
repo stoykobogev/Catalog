@@ -16,6 +16,10 @@ export class CategoryService {
 		return this.http.get<Array<Category>>(this.CATEGORIES_URL);
 	}
 
+	getCategory(id: number): Observable<Category> {
+		return this.http.get<Category>(this.CATEGORIES_URL + '/' + id);
+	}
+
 	deleteCategory(id: number): Observable<void> {
 		return this.http.delete<void>(this.CATEGORIES_URL + '/' + id);
 	}

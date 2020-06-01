@@ -40,6 +40,17 @@ public class CategoryService {
 		return dtos;
 	}
 	
+	@Transactional(readOnly = true)
+	public CategoryDto getCategory(int categoryId) {
+		
+		Category category = this.categoryRepository.findById(categoryId)
+				.orElseThrow(() -> new NoSuchEntityException(Category.class, categoryId));
+		
+		CategoryDto dto = this.modelMapper.map(category, CategoryDto.class);
+		
+		return dto;
+	}
+	
 	@Transactional
 	public int createCategory(CategoryParams params) {
 		

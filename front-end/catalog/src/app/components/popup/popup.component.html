@@ -6,7 +6,8 @@
 				<h4 class="modal-title">{{popup.title}}</h4>
 			</div>
 			<div class="modal-body">
-				<p>{{popup.text}}</p>
+				<p [style.display]="popup.isImagePreview ? 'none' : 'block'" *ngFor="let line of popup.content">{{line}}</p>
+				<img *ngIf="popup.isImagePreview" class="img-fluid" [src]="popup.content[0]">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" data-dismiss="modal" 

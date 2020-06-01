@@ -18,7 +18,7 @@ public class RedisService {
 	
 	public void saveAuthentication(String username, String jwt) {
 	    template.opsForValue().set(username, jwt);
-	    template.expire(username, SecurityConstants.JWT_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
+	    template.expire(username, SecurityConstants.JWT_EXPIRATION_TIME_SECONDS, TimeUnit.SECONDS);
 	}
 	
 	public void validateAuthentication(String username) {

@@ -14,6 +14,12 @@ export class PopupService {
 
 	showPopup(options: Popup.Options): void {
 
+		this.popup.cancelButtonVisible = false;
+		this.popup.isImagePreview = false;
+
+		this.popup.content = options.content;
+		this.popup.callback = options.callback;
+
 		switch (options.type) {
 			case Popup.Types.CONFIRMATION:
 				this.popup.title = 'Confirmation';
@@ -21,11 +27,13 @@ export class PopupService {
 				break;
 			case Popup.Types.ERROR:
 				this.popup.title = 'Error occured';
-				this.popup.cancelButtonVisible = false;
 				break;
 			case Popup.Types.INFO:
 				this.popup.title = 'Info';
-				this.popup.cancelButtonVisible = false;
+				break;
+			case Popup.Types.IMAGE:
+				this.popup.title = 'Image';
+				this.popup.isImagePreview = true;
 				break;
 			default:
 				break;
@@ -34,9 +42,6 @@ export class PopupService {
 		if (options.title) {
 			this.popup.title = options.title;
 		}
-
-		this.popup.text = options.text;
-		this.popup.callback = options.callback;
 
 		this.visible.next(true);
 	}

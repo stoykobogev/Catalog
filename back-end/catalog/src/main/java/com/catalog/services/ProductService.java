@@ -51,6 +51,10 @@ public class ProductService {
 		Product product = this.productRepository.findById(productId)
 				.orElseThrow(() -> new NoSuchEntityException(Product.class, productId));
 		
+		if (product.getImage() == null) {
+			return null;
+		}
+		
 		return product.getImage().getBytes();
 	}
 	
