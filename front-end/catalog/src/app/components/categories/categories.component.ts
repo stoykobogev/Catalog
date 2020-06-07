@@ -8,8 +8,7 @@ import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-categories',
-	templateUrl: './categories.component.html',
-	styleUrls: ['./categories.component.css']
+	templateUrl: './categories.component.html'
 })
 export class CategoriesComponent implements OnInit {
 
@@ -36,8 +35,13 @@ export class CategoriesComponent implements OnInit {
 			});
 	}
 
-	editCategory(): void {
-
+	editCategory(category: Category): void {
+		this.router.navigate(['categories', 'edit', category.id], 
+			{
+				state: {
+					category: category
+				}
+			});
 	}
 
 	deleteCategory(category: Category): void {
@@ -45,7 +49,11 @@ export class CategoriesComponent implements OnInit {
 			type: Popup.Types.CONFIRMATION,
 			content: ['Deleting this category will also delete all products in it.', 'Are you sure?'],
 			callback: () => {
-				this.categoryService.deleteCategory(category.id).subscribe();
+				this.categoryService.deleteCategory(category.id).subscribe(() => {
+					this.categories = this.categories.filter((c) => {
+						return c.id != category.id;
+					});
+				});
 			}
 		});
 	}

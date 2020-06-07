@@ -20,6 +20,14 @@ export class CategoryService {
 		return this.http.get<Category>(this.CATEGORIES_URL + '/' + id);
 	}
 
+	createCategory(name: string): Observable<number> {
+		return this.http.post<number>(this.CATEGORIES_URL, { name: name });
+	}
+
+	editCategory(id: number, name: string): Observable<void> {
+		return this.http.put<void>(this.CATEGORIES_URL + '/' + id, { name: name });
+	}
+
 	deleteCategory(id: number): Observable<void> {
 		return this.http.delete<void>(this.CATEGORIES_URL + '/' + id);
 	}

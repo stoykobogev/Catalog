@@ -10,8 +10,7 @@ import { Roles } from 'src/app/constants/roles';
 
 @Component({
 	selector: 'app-products',
-	templateUrl: './products.component.html',
-	styleUrls: ['./products.component.css']
+	templateUrl: './products.component.html'
 })
 export class ProductsComponent implements OnInit {
 
@@ -31,7 +30,7 @@ export class ProductsComponent implements OnInit {
 				this.products = products;
 			});
 		} else {
-			this.route.queryParams.subscribe((params) => {
+			this.route.params.subscribe((params) => {
 
 				let categoryId = params['categoryId'] as number;
 
@@ -58,7 +57,11 @@ export class ProductsComponent implements OnInit {
 			type: Popup.Types.CONFIRMATION,
 			content: ['Are you sure you want to delete this product?'],
 			callback: () => {
-				this.productService.deleteProduct(product.id).subscribe();
+				this.productService.deleteProduct(product.id).subscribe(() => {
+					this.products = this.products.filter((p) => {
+						return p.id != product.id;
+					});
+				});
 			}
 		});
 	}

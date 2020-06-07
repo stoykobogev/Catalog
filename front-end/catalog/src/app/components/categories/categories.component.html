@@ -22,7 +22,7 @@
 					<div class="bg-success rounded p-1 pl-2 pr-2" (click)="viewCategoryProducts(category)">
 						<i class="fas fa-arrow-right"></i>
 					</div>
-					<div [hasRoles]="[roles.ADMIN]" class="bg-primary rounded p-1 pl-2 pr-2">
+					<div [hasRoles]="[roles.ADMIN]" (click)="editCategory(category)" class="bg-primary rounded p-1 pl-2 pr-2">
 						<i class="fas fa-wrench"></i>
 					</div>
 					<div [hasRoles]="[roles.ADMIN]" (click)="deleteCategory(category)" class="bg-danger rounded p-1 pl-2 pr-2">

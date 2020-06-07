@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HasRolesDirective } from './directives/has-roles.directive';
 import { PopupComponent } from './components/popup/popup.component';
+import { TestDirective } from './directives/test.directive';
 
 @NgModule({
 	declarations: [
@@ -27,6 +28,7 @@ import { PopupComponent } from './components/popup/popup.component';
 		EditCategoryComponent,
 		LoginComponent,
 		HasRolesDirective,
+		TestDirective,
 		PopupComponent
 	],
 	imports: [

@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-login',
-	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.css']
+	templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
 
@@ -35,6 +34,9 @@ export class LoginComponent implements OnInit {
 	submit(): void {
 
 		if (this.loginForm.invalid) {
+			Object.keys(this.loginForm.controls).forEach((key) => {
+				this.loginForm.controls[key].markAsDirty();
+			});
             return;
         }
 
