@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-6 offset-3">
-		<h2 *ngIf="category">Category: {{category.name}}</h2>
+        <h2 *ngIf="category">Category: {{category.name}}</h2>
+        <br/>
         <h2>Create Product</h2>
         <form [formGroup]="form" (ngSubmit)="submit()">
             <div class="form-group">
@@ -25,7 +26,8 @@
                 <input type="file" formControlName="image" accept="image/jpeg, image/png, image/webp"/>
                 <div class="error" [hidden]="!(form.controls.image.dirty && form.controls.image.errors)">
 					<div [hidden]="!form.controls.image.errors?.type">Invalid file type</div>
-				</div>
+                </div>
+                <img [hidden]="form.controls.image.errors?.type || !form.encodedImage" class="img-fluid" [src]="form.encodedImage">
             </div>
             <div class="form-group">
                 <button class="btn btn-primary">Create</button>

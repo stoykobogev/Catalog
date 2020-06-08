@@ -4,12 +4,12 @@ import { FormControlName } from '@angular/forms';
 @Directive({
 	selector: 'input[type="file"]'
 })
-export class TestDirective {
+export class FileInputDirective {
 
     constructor(private formControlName: FormControlName) { }
 
     @HostListener('input', ['$event.target.files[0]']) 
-    onInputChange(file: File) {	
+    onInputChange(file: File) {
        	this.formControlName.control.setValue(file, {
 			   onlySelf: true,
 			   emitEvent: false,

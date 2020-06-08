@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,11 @@ public class ProductController {
 		return this.productService.getAllProductsByCategory(categoryId);
 	}
 	
+	@GetMapping("/{productId}")
+	public ProductDto getProduct(@PathVariable int productId) {
+		return this.productService.getProduct(productId);
+	}
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public int createProduct(@Valid @RequestBody ProductCreateParams params) {
@@ -50,7 +56,7 @@ public class ProductController {
 		this.productService.deleteProduct(productId);
 	}
 	
-	@GetMapping("/{productId}/image")
+	@GetMapping(value = "/{productId}/image", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
 	public byte[] getProductImage(@PathVariable int productId) {
 		return this.productService.getProductImage(productId);
 	}

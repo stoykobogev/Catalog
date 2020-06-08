@@ -3,7 +3,6 @@ import { ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { CategoryService } from 'src/app/services/category.service';
-import { FormGroup } from '@angular/forms';
 import { ProductForm } from 'src/app/models/product-form.model';
 
 @Component({

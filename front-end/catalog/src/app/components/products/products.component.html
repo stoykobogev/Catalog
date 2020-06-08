@@ -28,7 +28,7 @@
 					<div class="bg-success rounded p-1 pl-2 pr-2" *ngIf="product.imageCode" (click)="showProductImage(product)">
 						<i class="fas fa-image"></i>
 					</div>
-					<div [hasRoles]="[roles.ADMIN]" class="bg-primary rounded p-1 pl-2 pr-2">
+					<div [hasRoles]="[roles.ADMIN]" (click)="editProduct(product)" class="bg-primary rounded p-1 pl-2 pr-2">
 						<i class="fas fa-wrench"></i>
 					</div>
 					<div [hasRoles]="[roles.ADMIN]" (click)="deleteProduct(product)" class="bg-danger rounded p-1 pl-2 pr-2">

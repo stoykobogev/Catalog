@@ -52,6 +52,16 @@ export class ProductsComponent implements OnInit {
 		});
 	}
 
+	editProduct(product: Product): void {
+		this.router.navigate(['categories', this.category.id, 'products', 'edit', product.id], 
+			{
+				state: {
+					category: this.category,
+					product: product
+				}
+			});
+	}
+
 	deleteProduct(product: Product): void {
 		this.popupService.showPopup({
 			type: Popup.Types.CONFIRMATION,

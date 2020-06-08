@@ -35,6 +35,12 @@ const routes: Routes = [
 						canActivate: [AuthGuard],
 						data: { roles: [Roles.ADMIN] }
 					},
+					{
+						path: 'edit/:productId',
+						component: EditProductComponent,
+						canActivate: [AuthGuard],
+						data: { roles: [Roles.ADMIN] }
+					},
 				]
 			},
 			{
@@ -50,12 +56,6 @@ const routes: Routes = [
 				data: { roles: [Roles.ADMIN] }
 			}
 		]
-	},
-	{
-		path: 'products/edit/:productId',
-		component: EditProductComponent,
-		canActivate: [AuthGuard],
-		data: { roles: [Roles.ADMIN] }
 	},
 	{
 		path: 'login',

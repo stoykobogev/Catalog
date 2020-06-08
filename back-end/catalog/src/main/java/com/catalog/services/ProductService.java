@@ -46,6 +46,17 @@ public class ProductService {
 	}
 	
 	@Transactional(readOnly = true)
+	public ProductDto getProduct(int productId) {
+		
+		Product product = this.productRepository.findById(productId)
+				.orElseThrow(() -> new NoSuchEntityException(Product.class, productId));
+		
+		ProductDto dto = this.modelMapper.map(product, ProductDto.class);
+		
+		return dto;
+	}
+	
+	@Transactional(readOnly = true)
 	public byte[] getProductImage(int productId) {
 		
 		Product product = this.productRepository.findById(productId)

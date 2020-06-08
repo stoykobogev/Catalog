@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HasRolesDirective } from './directives/has-roles.directive';
 import { PopupComponent } from './components/popup/popup.component';
-import { TestDirective } from './directives/test.directive';
+import { FileInputDirective } from './directives/file-input.directive';
 
 @NgModule({
 	declarations: [
@@ -28,7 +28,7 @@ import { TestDirective } from './directives/test.directive';
 		EditCategoryComponent,
 		LoginComponent,
 		HasRolesDirective,
-		TestDirective,
+		FileInputDirective,
 		PopupComponent
 	],
 	imports: [

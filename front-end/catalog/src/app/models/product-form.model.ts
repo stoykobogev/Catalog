@@ -2,39 +2,43 @@ import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/f
 
 export class ProductForm extends FormGroup {
 
-	private readonly ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+	static readonly ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 	categoryId: number;
 	name: string;
 	price: number;
-	image: File;
+	image: Blob;
+	encodedImage: string;
+	fileReader = new FileReader();
 
 	constructor(categoryId: number, values?: { name: string, price: number, image: Blob }) {
 		super({
-			name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-			price: new FormControl('', [Validators.required, Validators.min(0.01), Validators.pattern(/^\d{1,7}(\.\d{1,2})?$/)]),
-			image: new FormControl(null, (control: FormControl): ValidationErrors | null => {
-				
-				const file = control.value as File;
-
-				if (file) {
-					if (this.ALLOWED_IMAGE_TYPES.indexOf(file.type) === -1) {
-						return { type: true };
-					}
-				}
-
-				return null;
-			}),
+			name: new FormControl(values ? values.name : '', [Validators.required, Validators.maxLength(20)]),
+			price: new FormControl(values ? values.price : '', [Validators.required, Validators.min(0.01), Validators.pattern(/^\d{1,7}(\.\d{1,2})?$/)]),
+			image: new FormControl(values ? values.image : null)
 		},
 		{
 			updateOn: 'submit'
 		});
 
-		if (values) {
-			this.controls.name.setValue(values.name);
-			this.controls.price.setValue(values.price);
-			this.controls.image.setValue(values.image);
-		}
+		this.controls.image.setValidators((control: FormControl): ValidationErrors | null => {
+				
+			const file = control.value as Blob;
+
+			if (file) {
+				if (ProductForm.ALLOWED_IMAGE_TYPES.indexOf(file.type) === -1) {
+					return { type: true };
+				} else {
+					this.fileReader.onload = (ev: ProgressEvent<FileReader>) => {
+						this.encodedImage = ev.target.result as string;
+					};
+
+					this.fileReader.readAsDataURL(file);
+				}
+			}
+
+			return null;
+		});
 
 		this.categoryId = categoryId;
 	}
@@ -54,7 +58,7 @@ export class ProductForm extends FormGroup {
 			categoryId: this.categoryId,
 			name: this.controls.name.value,
 			price: this.controls.price.value,
-			image: this.controls.image.value
+			image: this.encodedImage.slice(this.encodedImage.indexOf('base64,') + 7)
 		};
 	}
 }

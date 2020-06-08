@@ -16,28 +16,12 @@ export class ProductService {
 		return this.http.get<Product[]>(this.BASE_URL + '/category/' + categotyId);
 	}
 
-	createProduct(params: { categoryId: number; name: string; price: number; image: any }): Observable<number> {
- 
-		// setting the outer observable's observer to the http observer makes it complete 
-		// since http observables complete after the request is done (tested)
-		return new Observable<number>((observer) => {
+	createProduct(params: { categoryId: number; name: string; price: number; image: string }): Observable<number> {
+		return this.http.post<number>(this.BASE_URL, params);
+	}
 
-			const fileReader = new FileReader();
-
-			fileReader.onload = (ev: ProgressEvent<FileReader>) => {
-	
-				const result = ev.target.result as string;
-				params.image = result.slice(result.indexOf('base64,') + 7);
-	
-				this.http.post(this.BASE_URL, params).subscribe(observer);
-			};
-	
-			fileReader.readAsDataURL(params.image);
-
-			return new Subscription(() => {
-				fileReader.abort();
-			});
-		});
+	editProduct(id: number, params: { categoryId: number; name: string; price: number; image: string }): Observable<void> {
+		return this.http.put<void>(this.BASE_URL + '/' + id, params);
 	}
 
 	deleteProduct(id: number): Observable<void> {
@@ -46,5 +30,15 @@ export class ProductService {
 
 	getProductImageUrl(id: number): string {
 		return this.BASE_URL + '/' + id + '/image';
+	}
+
+	getProductImage(id: number): Observable<Blob> {
+		return this.http.get(this.getProductImageUrl(id), {
+			responseType: 'blob'
+		});
+	}
+
+	getProduct(id: number): Observable<Product> {
+		return this.http.get<Product>(this.BASE_URL + '/' + id);
 	}
 }
